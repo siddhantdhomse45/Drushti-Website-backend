@@ -49,3 +49,36 @@ export const underGrad = async (req, res) => {
     });
   }
 };
+
+
+export const getUnderGradPrograms = async (req, res) => {
+  try {
+    const program = await Program.find();
+    return res.status(200).json({
+      success:true,
+      message:"All program Fetched Successfully",
+      program
+    }) }
+    catch(error){
+      return res.status(500).json({
+        suucess:false,
+        message:"Failed to fetch Programs"
+      })
+    }
+}
+
+export const deleteUnderGradProgram = async (req, res) => {
+  try {
+    const id = req.params.id
+    await Program.findByIdAndDelete(id)
+    return res.status(200).json({
+      success:true,
+      message:"Program Deleted Successfully"
+    })
+  } catch (error) {
+    res.status(500).json({
+      success:false,
+      message:"Failed to delete Program"
+    })
+  }
+}
