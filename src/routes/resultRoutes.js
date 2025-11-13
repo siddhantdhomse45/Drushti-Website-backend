@@ -4,6 +4,6 @@ import { getStudentResult } from "../controllers/resultController.js";
 const router = express.Router();
 
 // POST /api/result/search
-router.post("/search", getStudentResult);
+router.get("/search", getStudentResult);
 
 export default router;
