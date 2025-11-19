@@ -72,15 +72,12 @@
 // app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
 
 
-
-
-
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./src/config/db.js";
 
-// Routes
+// ROUTES IMPORT...
 import galleryRoutes from "./src/routes/galleryRoutes.js";
 import EventRoutes from "./src/routes/EventRoutes.js";
 import resultRoutes from "./src/routes/resultRoutes.js";
@@ -103,33 +100,37 @@ connectDB();
 
 const app = express();
 
-// --- FIXED CORS (Express v5 compatible) ---
+// ----------------------------
+// FIXED CORS (FINAL VERSION)
+// ----------------------------
+const allowedOrigins = [
+  "https://drushti-website.vercel.app", 
+  "http://localhost:5173"
+];
+
 app.use(
   cors({
-    origin: [
-      "https://drushti-website-g358.vercel.app",
-      "http://localhost:5173",
-    ],
-    methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS",
-    allowedHeaders: "Content-Type,Authorization",
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error("CORS Not Allowed: " + origin));
+    },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
+    preflightContinue: false,
   })
 );
 
-// Extra CORS headers (required for Express v5)
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://drushti-website-g358.vercel.app");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
+app.use(cors());
 
-// NO app.options("*") — this breaks in Express v5!
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
+// ----------------------------
+// ROUTES
+// ----------------------------
 app.use("/api/result", resultRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/event", EventRoutes);
@@ -147,6 +148,10 @@ app.use("/api/courses", courseRoutes);
 app.use("/api/stats", statsRoutes);
 app.use("/api/testimonial", testimonialRoutes);
 
-// Start Server
+// ----------------------------
+// START SERVER
+// ----------------------------
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+app.listen(PORT, () =>
+  console.log(`✅ Server running on port ${PORT}`)
+);
