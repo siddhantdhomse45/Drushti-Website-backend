@@ -4,7 +4,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import path from "path";
+// import path from "path";
 import connectDB from "./src/config/db.js";
 
 // ✅ Routes
@@ -32,14 +32,20 @@ connectDB();
 
 const app = express();
 
-// ✅ Middleware
 app.use(
   cors({
-    origin: "https://drushti-website-g358.vercel.app/",
-    methods: ["GET", "POST", "DELETE"], // Added DELETE for your delete route
+    origin: [
+      "https://drushti-website-g358.vercel.app",
+      "http://localhost:5173"
+    ],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
+
+// allow preflight for all routes
+app.options("*", cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
