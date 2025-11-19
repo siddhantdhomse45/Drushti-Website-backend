@@ -35,7 +35,7 @@ const app = express();
 // ✅ Middleware
 app.use(
   cors({
-    origin: "https://drushti-website-backend-1.onrender.com",
+    origin: "https://drushti-website-g358.vercel.app/",
     methods: ["GET", "POST", "DELETE"], // Added DELETE for your delete route
     credentials: true,
   })
