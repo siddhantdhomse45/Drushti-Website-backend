@@ -104,7 +104,7 @@ const app = express();
 // FIXED CORS (FINAL VERSION)
 // ----------------------------
 const allowedOrigins = [
-  "https://drushti-website.vercel.app", 
+  "https://drushtiwebsite.vercel.app/", 
   "http://localhost:5173",
   "https://drushtieducation.com/"
 ];
