@@ -72,6 +72,95 @@
 // app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
 
 
+// import express from "express";
+// import cors from "cors";
+// import dotenv from "dotenv";
+// import connectDB from "./src/config/db.js";
+
+// // ROUTES IMPORT...
+// import galleryRoutes from "./src/routes/galleryRoutes.js";
+// import EventRoutes from "./src/routes/EventRoutes.js";
+// import resultRoutes from "./src/routes/resultRoutes.js";
+// import programRoutes from "./src/routes/programRoutes.js";
+// import postProgramRouter from "./src/routes/postProgramRouter.js";
+// import diplomaEngineeringRoutes from "./src/routes/diplomaEngineeringRoutes.js";
+// import btechProgramRouter from "./src/routes/btechProgramRouter.js";
+// import mtechRoutes from "./src/routes/mtechRoutes.js";
+// import diplomaRouter from "./src/routes/diplomaRoutes.js";
+// import certificateRouter from "./src/routes/certificateRoutes.js";
+// import pgRouter from "./src/routes/pgDiplomaRoutes.js";
+// import schoolProgramRouter from "./src/routes/schoolProgramRoutes.js";
+// import itiRoutes from "./src/routes/itiRoutes.js";
+// import courseRoutes from "./src/routes/courseRoutes.js";
+// import statsRoutes from "./src/routes/statsRoutes.js";
+// import testimonialRoutes from "./src/routes/testimonialRoutes.js";
+
+// dotenv.config();
+// connectDB();
+
+// const app = express();
+
+// // ----------------------------
+// // FIXED CORS (FINAL VERSION)
+// // ----------------------------
+// const allowedOrigins = [
+//   "https://drushtieducation.vercel.app", 
+//   "http://localhost:5173",
+//   "https://drushtieducation.com/"
+// ];
+
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin) return callback(null, true);
+//       if (allowedOrigins.includes(origin)) return callback(null, true);
+//       return callback(new Error("CORS Not Allowed: " + origin));
+//     },
+//     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//     credentials: true,
+//     preflightContinue: false,
+//   })
+// );
+
+// app.use(cors());
+
+
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+
+// // ----------------------------
+// // ROUTES
+// // ----------------------------
+// app.use("/api/result", resultRoutes);
+// app.use("/api/gallery", galleryRoutes);
+// app.use("/api/event", EventRoutes);
+// app.use("/program-api", programRoutes);
+// app.use("/postprogram-api", postProgramRouter);
+// app.use("/diploma-api", diplomaEngineeringRoutes);
+// app.use("/btech-api", btechProgramRouter);
+// app.use("/mtech-api", mtechRoutes);
+// app.use("/diplomaCourse-api", diplomaRouter);
+// app.use("/certificate", certificateRouter);
+// app.use("/pgdiploma", pgRouter);
+// app.use("/schoolprogram", schoolProgramRouter);
+// app.use("/iti-api", itiRoutes);
+// app.use("/api/courses", courseRoutes);
+// app.use("/api/stats", statsRoutes);
+// app.use("/api/testimonial", testimonialRoutes);
+
+// // ----------------------------
+// // START SERVER
+// // ----------------------------
+// const PORT = process.env.PORT || 8000;
+// app.listen(PORT, () =>
+//   console.log(`✅ Server running on port ${PORT}`)
+// );
+
+
+
+
+
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -100,13 +189,13 @@ connectDB();
 
 const app = express();
 
-// ----------------------------
-// FIXED CORS (FINAL VERSION)
-// ----------------------------
+// ----------------------------------
+// FIXED CORS CONFIG (FINAL WORKING)
+// ----------------------------------
 const allowedOrigins = [
-  "https://drushtieducation.vercel.app", 
-  "http://localhost:5173",
-  "https://drushtieducation.com/"
+  "https://drushtieducation.vercel.app",
+  "https://drushtieducation.com",
+  "http://localhost:5173"
 ];
 
 app.use(
@@ -114,24 +203,19 @@ app.use(
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
       if (allowedOrigins.includes(origin)) return callback(null, true);
+
       return callback(new Error("CORS Not Allowed: " + origin));
     },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-    preflightContinue: false,
+    credentials: true
   })
 );
-
-app.use(cors());
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ----------------------------
 // ROUTES
-// ----------------------------
 app.use("/api/result", resultRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/event", EventRoutes);
@@ -149,9 +233,7 @@ app.use("/api/courses", courseRoutes);
 app.use("/api/stats", statsRoutes);
 app.use("/api/testimonial", testimonialRoutes);
 
-// ----------------------------
 // START SERVER
-// ----------------------------
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () =>
   console.log(`✅ Server running on port ${PORT}`)
